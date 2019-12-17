@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block body %}
+
+{% if articles %}
+<div class="col-md-10 offset-md-3 col-lg-7">
+    <h1>Makaleler</h1>
+    <hr>
+    <form style="margin-top: 30px;" class="form-inline md-form mr-auto mb-4">
+        <input class="form-control mr-sm-2" name="keyword" type="text" placeholder="Ara..." aria-label="Ara...">
+        <button class="btn btn-success btn aqua-gradient btn-rounded" type="submit">Ara</button>
+    </form>
+</div>
+{% for article in articles %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <!-- Post Content Column -->
+        <div style="margin-top: 100px;" class="col-lg-8">
+
+            <!-- Title -->
+            <h2 class="mt-4"><a href="{% url 'article:detail' article.id %}">{{ article.title }}</a></h2>
+
+            <!-- Author -->
+            <p class="lead">
+                {{ article.author }} tarafından yayınlandı.
+            </p>
+
+            <hr>
+
+            <!-- Date/Time -->
+            <p>{{ article.created_date }}</p>
+
+            <hr>
+
+            <!-- Preview Image -->
+            {% if article.article_image %}
+            <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded"
+                    src="{{article.article_image.url}}" alt=""></a>
+            <hr>
+            {% endif %}
+
+            <!-- Post Content -->
+            <p class="lead">{{ article.content|safe|truncatewords:30 }}</p>
+            <hr>
+            <a style="float: right;" class="btn btn-danger" href="{% url 'article:detail' article.id %}">Devamını
+                oku...</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="alert alert-info">Makale bulunamadı.</div>
+{% endif %}
+
+{% endblock body %}
